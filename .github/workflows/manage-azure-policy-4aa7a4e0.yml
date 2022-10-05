@@ -1,0 +1,32 @@
+name: manage-azure-policy-4aa7a4e0
+on:
+  workflow_dispatch:
+    inputs:
+      remarks:
+        description: 'Reason for triggering the workflow run'
+        required: false
+        default: 'Updating Azure Policies'
+
+
+## Uncomment the following if you wish to automatically trigger workflow run with every commit
+#
+#  push:
+#    paths:
+#      - 'policy/policies/Configure_Linux_Virtual_Machine_Scale_Sets_to_be_associated_with_a_Data_Collection_Rule_050a90d5-7cce-483f-8f6c-0df462036dda/**'
+#      - .github/workflows/manage-azure-policy-4aa7a4e0.yml
+jobs:
+  apply-azure-policy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{secrets.AZURE_CREDENTIALS_4aa7a4e0}}
+        allow-no-subscriptions: true
+    - name: Create or Update Azure Policies
+      uses: azure/manage-azure-policy@v0
+      with:
+        paths: |
+          policy/policies/Configure_Linux_Virtual_Machine_Scale_Sets_to_be_associated_with_a_Data_Collection_Rule_050a90d5-7cce-483f-8f6c-0df462036dda/**
